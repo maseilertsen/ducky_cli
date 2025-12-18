@@ -6,8 +6,9 @@ int main() {
   
   int option = -1; // Player option.
   
-  asciiDuck();
   do {
+    system("clear"); // clears terminal (Unix) "cls" in windows.
+    asciiDuck();
     printMenu();
     std::cout << "Choose an option: ";
     std::cin >> option;
@@ -43,8 +44,7 @@ void asciiDuck(){
   "  __"     << std::endl <<
   "<(o )___" << std::endl <<
   " ( ._> /" << std::endl <<
-  "  `---'"  << std::endl <<
-  std::endl;
+  "  `---'"  << std::endl;
 }
 
 void menuOne() {
@@ -54,6 +54,7 @@ void menuOne() {
 
   // User input
   std::getline(std::cin, prompt);
+  if (prompt == "" ){ return; }
 
   // Store in vector
   prompts.push_back(prompt);
