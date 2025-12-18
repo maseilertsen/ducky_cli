@@ -2,14 +2,24 @@
 #define MAIN_H
 
 #include <vector>
-//#include <string>
+#include <chrono>
+#include <string>
 
 // Menu functions
 void printMenu();
 void asciiDuck();
 void menuOne();
 
-// Storage
-std::vector<std::string>prompts;
 
+// Read/Write from file
+void savePrompts();
+
+
+struct PromptData{
+   std::chrono::year_month_day timestamp;
+   std::string prompt;
+};
+
+// Storage
+std::vector<PromptData> prompts;
 #endif

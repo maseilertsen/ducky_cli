@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream> //read/write to file
+#include <chrono> // time and date
+#include <string> // time and date
 #include "functions.h"
 
 int main() {
@@ -7,7 +10,7 @@ int main() {
   int option = -1; // Player option.
   
   do {
-    system("clear"); // clears terminal (Unix) "cls" in windows.
+    //system("clear"); // clears terminal (Unix) "cls" in windows.
     asciiDuck();
     printMenu();
     std::cout << "Choose an option: ";
@@ -16,13 +19,11 @@ int main() {
 
     switch (option)
     {
-    case 1:
-      menuOne(); break;
+    case 1:  menuOne(); break;
     case 2:  std::cout << "Choice 2" << std::endl; break;
-    case 0: break;
-    default:
-    std::cout << "QUACK: Not a valid number!" << std::endl;
-      break;
+    case 3:  savePrompts(); break;
+    case 0:  break;
+    default: std::cout << "QUACK: Not a valid number!" << std::endl; break;
     }
   } while (option != 0); // Exit prompt
 
@@ -35,6 +36,7 @@ void printMenu(){
   "--- Ducky CLI ---"               << std::endl <<
   "1 - Quack about your challange"  << std::endl <<
   "2 - See previous challenges"     << std::endl <<
+  "3 - Save duck throughts"         << std::endl <<
   "0 - Leave ducky alone"           << std::endl 
                                     << std::endl;
 }
@@ -54,13 +56,36 @@ void menuOne() {
 
   // User input
   std::getline(std::cin, prompt);
-  if (prompt == "" ){ return; }
 
-  // Store in vector
-  prompts.push_back(prompt);
+  // return if no input.
+  if (prompt == "" ){ 
+    return;
+  } else {
+    const std::chrono::time_point now{std::chrono::system_clock::now()};               // Curernt time
+    const std::chrono::year_month_day ymd{std::chrono::floor<std::chrono::days>(now)}; // YYYY-MM-DD
 
+    struct PromptData s;
+    s.timestamp = ymd; 
+    s.prompt = prompt;
+
+    // Store in vector
+    prompts.push_back(s);
+
+    // print all values
+    for (const auto& val : prompts){
+      std::cout << val.timestamp << " - " << val.prompt << std::endl;
+    }
+}
+}
+
+void savePrompts() {
+  std::ofstream saveFile("textFile.txt");
+
+  // Save all new prompts in vector
   for (const auto& val : prompts){
-    std::cout << "Vector: " << val << std::endl;
+    saveFile << val.timestamp << "_" << val.prompt << std::endl;
   }
+
+  std::cout << "Succsessfull save!" << std::endl;
 
 }
