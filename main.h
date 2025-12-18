@@ -1,2 +1,0 @@
-void printMenu();
-void asciiDuck();
