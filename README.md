@@ -1,1 +1,2 @@
-#ducky_cli
+# ducky_cli
+The non-AI CLI tool
